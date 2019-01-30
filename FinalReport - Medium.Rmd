@@ -154,7 +154,7 @@ df_percentage = rbind(df_percentage, df_percentage2)
 df_percentage$plotOrder = df_percentage[df_percentage$against == "Away",]$Freq
 
 #plot
-ggplot(df_percentage, aes(x = reorder(Var1, - plotOrder), y = Freq, color = against)) + geom_hline(yintercept=0.5) + geom_point(stat = "identity", size = 3) + xlab("Penalty Type") + ggtitle("% of Penalties Called Against the Home/Away Teams by Penalty Type") + ylab("Percentage of Penalties Against") + scale_y_continuous(labels = percent, limits=c(0.4,0.6)) + labs(color = "Perentage Called Against") +coord_flip() + theme_ref
+ggplot(df_percentage, aes(x = reorder(Var1, - plotOrder), y = Freq, color = against)) + geom_hline(yintercept=0.5) + geom_point(stat = "identity", size = 3) + xlab("Referee Name") + ggtitle("% of Penalties Called Against the Home/Away Teams by Penalty Type") + ylab("Percentage of Penalties Against") + scale_y_continuous(labels = percent, limits=c(0.4,0.6)) + labs(color = "Perentage Called Against") +coord_flip() + theme_ref
 
 ```
 

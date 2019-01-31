@@ -28,17 +28,19 @@ p.caption {
   text-align: justify}
 </style>
 
-Next weekend, millions of people around the world will tune in to watch Super Bowl LIII. Following what many are considering to be two of the most controversial playoff games in the history of the NFL, this year's event features the Los Angeles Rams and the New England Patriots. Both of these teams managed to advance to the prestigious game with some thanks to favorable penalties (or lack thereof) called by the referee crews officiating their respective games.
+Next weekend, millions of people around the world will tune in to watch Super Bowl LIII. Following what many are considering to be two of the most [controversial playoff games](https://www.si.com/nfl/2019/01/20/officiating-conference-championship-controversial-calls-referees-nfc-afc) in the history of the NFL, this year's event features the Los Angeles Rams and the New England Patriots. Both of these teams managed to advance to the prestigious game with some thanks to favorable penalties (or lack thereof) called by the referee crews officiating their respective games.
 
 Throughout recent years, an increasing amount of attention has been placed on penalty calls in the NFL. Penalties can dramatically alter the flow and outcomes of games (as was arguably the case in both the AFC and NFC Championship games last weekend), so ensuring that penalties are called fairly and consistently is crucial to maintaining the integrity of the game.
 
-The frequency, consistency, and possible biases of penalty calls in the NFL are areas of football analytics that have only garnered minimal attention individually, let alone all together, which served as the primary source of motivation for this analysis. We examine penalty distributions in a variety of ways, and we frequently refer to NFL officials by name. To avoid any confusion or misinterpretations, it is important to note that these names represent the head referees of NFL crews, rather than by the individual referee who called the penalty. Every NFL game is watched by a group of seven officials, which includes one referee, one umpire, and five line judges. Although NFL officials are labeled by name in the following analyses and visualizations.
+The purpose of this analysis is to examine tendencies, biases, and patterns in penalties called by NFL officials. Specifically, we wanted to examine whether all teams are penalized at similar rates, whether there are differences in penalty calls against home and away teams, and frequencies of penalty calls by both penalty type and field position.
 
-Data for this analysis was collected from the beginning of the 2013-2014 NFL season through week 9 of the 2018-2019 NFL season.
+Some background: Every NFL game is watched by a group of seven officials, which includes one referee, one umpire, and five line judges. Although NFL officials are labeled by name in the following analyses and visualizations, it is important to note that these names represent the head referees of the crews; thus, this analysis focuses on trends and biases by referee crews, rather than by individual NFL officials.
 
-##Penalty Types
+Data for this analysis was collected from the beginning of the 2013-2014 NFL season through week 9 of the 2018-2019 NFL season. We obtained play-by-play data from [NFL Savant](http://www.nflsavant.com/about.php?fbclid=IwAR3c8IZngQd0eE_0jp3Z401TdZXSBa8E-qEAX8J7J4uC3--CisVr7ZQfjEQ) and referee game data from [Pro-Football-Reference](https://www.pro-football-reference.com/officials/index.htm?fbclid=IwAR387n92do_jrcbwKAjKNR2Y_GSGpcnWMGbCbJ7Pwmx7AdpZQRSbmglfSfU).
 
-Weekly viewers of NFL football are sometimes confused about why certain types of penalties occur more frequently in one week versus another. This inconsistency certainly could be a function of luck combined with sloppiness by the players, but it also could have to do with biases by referee crews towards calling or not calling certain penalty types. For example, some referee crews may throw the flag for any action nearing an illegal tackle while others may be compelled to let questionable actions slide and go uncalled. To examine the distribution of penalty types, the following bar chart can be constructed:
+##Which penalty types are most common?
+
+Weekly viewers of NFL football are sometimes confused about why certain types of penalties occur more frequently in one week versus another. This inconsistency certainly could be a function of luck combined with sloppiness by the players, but it also could have to do with biases by referee crews towards calling or not calling certain penalty types. For example, some referee crews may throw the flag for any action nearing an illegal tackle while others may be compelled to let questionable actions slide and go uncalled. Before turning to the differences among referees, it is helpful to have a sense of the overal distribution of penalty types.
 
 ```{r}
 
@@ -106,7 +108,9 @@ ggplot(df_averagePenaltyTypeCalled, aes(x = reorder(PenaltyType, - FreqTotal), y
 
 ```
 
-Figure 1 shows how the average referee crew will make penalty calls in a game. `Offside` and `Illegal Block` are the most common penalties. This commonality is not suprising as running across the line of scrimmage and blocking are two fundamental aspects of the game and thus are bound to be done incorrectly sometimes. Moreover, it is also not suprising that particularly sloppy penalties such as `Too Many Men on the Field`, `Illegal Formation`, and `Delay of Game` are rare. Moreover, not every referee crew calls penalties at the exact rates as highlighted in Figure 1. Figure 2 below shows the percentages of increases or decreases from these averages by referee crew.
+`Offside` and `Illegal Block` are the most common penalties. This commonality is not suprising as running across the line of scrimmage and blocking are two fundamental aspects of the game and thus are bound to be done incorrectly sometimes. Moreover, it is also not suprising that particularly sloppy penalties such as `Too Many Men on the Field`, `Illegal Formation`, and `Delay of Game` are rare.
+
+Looking at the distribution by referee, we learn that not every referee crew calls penalties at the same rate.
 
 
 ```{r penaltyTypeIncrease, anchor='Figure', fig.width = 8, fig.height = 17, fig.cap="Figure 2: Percentage of Increase/Decrease from Average Penalty Type", fig.align= 'center'}
@@ -125,9 +129,9 @@ keep(refData, theme_ref, sure = TRUE)
 The above graph provides insight regarding tendencies of NFL referee crews to call or not call certain types of penalties. For example, the crew of Bill Vinovich seems to call more penalties than average regardless of penalty type. Additionally, Walt Anderson's crew seems to call less penalties than average regardless of type.
 
 
-##Analysis by Home/Away Team
+##Are more penalties called against the away team?
 
-It is common to think that teams are often called for more penalties when they are playing on the road as opposed to playing in their home cities. This difference can be a function of player familiarity with the field, miscommunication between members of the away team due to loudness of the home crowd, and/or referee crew reaction to crowd noise encouraging or discouraging certain calls. The percentages of calls against home teams and away teams by penalty type are shown in Figure 3 below.
+It is common to think that teams are often called for more penalties when they are playing on the road as opposed to playing in their home cities. This difference can be a function of player familiarity with the field, miscommunication between members of the away team due to loudness of the home crowd, and/or referee crew reaction to crowd noise encouraging or discouraging certain calls. The percentages of calls against home teams and away teams by penalty type are shown below.
 
 ```{r, anchor='Figure', fig.cap="Figure 3: Percentages of Penalties Called Against the Home/Away Teams by Penalty Type", fig.align= 'center', fig.width = 8}
 
@@ -158,7 +162,9 @@ ggplot(df_percentage, aes(x = reorder(Var1, - plotOrder), y = Freq, color = agai
 
 ```
 
-In Figure 3, we see that a timing penalty (i.e. `Delay of Game`) is the most unfavorable towards the away team, which can likely be attributed to home crowds often increasing their noise levels in attempts to cause such penalties on the away teams. However, the higher degree of `Illegal Tackle` penalties that we observe is decently suprising. An illegal tackle penalty is not based on familiarity with field or pre-snap timing which suggests that it may be a function of referee crew responses to crowd noise. Moreover, the percentages of penalties called against home teams and away teams by referee crew is shown in Figure 4 below.
+We see that a timing penalty (i.e. `Delay of Game`) is the most unfavorable towards the away team, which can likely be attributed to home crowds often increasing their noise levels in attempts to cause such penalties on the away teams. However, the higher degree of `Illegal Tackle` penalties that we observe is fairly suprising. An illegal tackle penalty is not based on familiarity with field or pre-snap timing, which suggests that it may be a function of referee crew responses to crowd noise.
+
+Let's now turn to the percentages of penalties called against home teams and away teams by referee crew.
 
 ```{r ref_home_away_1, anchor='Figure', fig.cap="Figure 4: Percentages of Penalties Called Against Home and Away Teams by Referee", fig.align= 'center', fig.height= 7, fig.width = 7.75}
 
@@ -205,45 +211,9 @@ keep(refData, theme_ref, sure = TRUE)
 
 Here we see that nearly every referee crew calls more penalties against the away teams than the home teams. The crew led by John Hussey is the only exception and is just below the 50% mark, while Pete Morelli's crew has the highest percentage of penalty calls against away teams at nearly 55%. As a whole, all of the referee crews call home and away penalties at rates around 50%, which suggests that penalty calling is quite fair even though we would expect a slight trend toward more penalties called against away teams because of the aforementioned points.
 
-##Analysis by Quarter
+##Where on the field are penalties most often called?
 
-We continue our exploratory data analysis by examining the distribution of penalties per game by quarter. Figure 5 shows this distribution at an aggregate level:
-```{r penalties_by_q, anchor='Figure', fig.cap="Figure 5: Penalties Per Game by Quarter", fig.align= 'center'}
-df2 <- refData
-
-df_by_q <- df2[c(1,27,28,2)]
-df_by_q <- df_by_q %>%
-  mutate(gameID = paste(GameDate, Home, Away))
-reg_len <- n_distinct(df_by_q$gameID)
-ot <- df_by_q %>%
-  filter(Quarter == 5)
-ot_len <- n_distinct(ot$gameID)
-df_by_q <- df_by_q %>%
-  group_by(Quarter) %>%
-  summarise(count = n()) %>%
-  mutate(adj_count = ifelse(Quarter < 5, count/reg_len, count/ot_len))
-df_by_q$Quarter <- as.factor(df_by_q$Quarter)
-levels(df_by_q$Quarter) <- c("Q1", "Q2", "Q3", "Q4", "Overtime")
-
-
-ggplot(df_by_q, aes(x = Quarter, y = adj_count, width = 0.8)) +
-  geom_bar(stat = "identity", color = "black", fill = "red", alpha = 0.6) +
-  ggtitle("Penalties Per Game by Quarter") +
-  xlab("Quarter") +
-  ylab("Count Per Game") +
-  theme_ref
-
-```
-
-As seen here, most penalties are called in quarters two and four of games. A high frequency of penalties in quarter four is not too surprising, because the game is nearing conclusion at this point and we expect that teams have higher risk tolerances as they attempt to end the games as victors. On the other hand, the fact that quarter two has the highest penalty frequency is somewhat surprising because one would intuitively think that the game progresses fluidly at this point, having already played a full quarter and thus teams have gotten over any jitters or states of hesitancy. It is also surprising that quarter one yields the lowest penalty frequency, but we can pose a couple different hypotheses for this pattern: perhaps pace of play is slower in the first quarter than in the other three, or perhaps there is some inherent bias in referees not wanting to begin games by immediately calling penalties.
-
-Also included in this graph is the penalty frequency for overtime periods. Although it appears that penalties are called less frequently in overtime than in normal quarters, it is important to note that overtime generally does not last the full length of a regular quarter. Thus, the frequency of penalties called in overtime seems proportional to that of quarters one through four when we account for duration of play.
-
-##Interactive - Offensive/Defensive Penalties by Area of Field
-
-This component serves to act as an interactive application that users can use to learn about how penalities within the NFL occur at different frequencies depending on field position.
-
-To get started place your mouse on a 10 yard zone of the field. One can also use the toggle below to filter by offensive/defensive penalties.
+This component serves to act as an interactive application that users can use to learn about how penalities within the NFL occur at different frequencies depending on field position. To play with this interactive component yourself [click here](https://jacobk-.github.io/referee-visualizations/).
 
 ```{r}
 htmltools::includeHTML("./docs/index_report.html")
@@ -252,5 +222,7 @@ htmltools::includeHTML("./docs/index_report.html")
 ##Conclusion
 
 Although many technological advances are constantly being made in just about all sports (such as the introduction of instant replay), referees are an inherently human part of football. Thus, at the core of the exploratory data analysis conducted in this project lies human behavior. No two humans see things the exact same way, which serves as some justification for the inconsistencies we see in referee penalty calls, despite much effort taken by the NFL to define the constitution of particular penalties in objective terms. Therefore, we must err on the side of caution when identifying anomalies or inconsistencies in our dataset.
+
+John Parry, the head referee of this weekend’s Super Bowl, will try to lead a consistent crew throughout the game. According to the data, his crew tends to call a high number of pre-snap penalties such as offsides, delay of game, and illegal formation. Moreover, his crew tends to call less pass interference penalties than average. Will a missed pass interference penalty have a significant impact on Sunday’s game, as was the case last weekend? We will have to wait and see.
 
 If interested in exploring the dataset, code, or analysis in more detail, you can find all work located [here](https://github.com/JacobK-/referee-visualizations).

@@ -216,7 +216,7 @@ df_percentage = rbind(df_percentage, df_percentage2)
 df_percentage$plotOrder = df_percentage[df_percentage$against == "Away",]$Freq
 
 #plot
-ggplot(df_percentage, aes(x = reorder(Var1, - plotOrder), y = Freq, color = against)) + geom_hline(yintercept=0.5) + geom_point(stat = "identity", size = 3) + xlab("Referee Crew") + ggtitle("% of Penalties Called Against the Home/Away Teams by Penalty Type") + ylab("Percentage of Penalties Against") + scale_y_continuous(labels = percent, limits=c(0.4,0.6)) + labs(color = "Perentage Called Against") +coord_flip() + theme_ref
+ggplot(df_percentage, aes(x = reorder(Var1, - plotOrder), y = Freq, color = against)) + geom_hline(yintercept=0.5) + geom_point(stat = "identity", size = 3) + xlab("Penalty Type") + ggtitle("% of Penalties Called Against the Home/Away Teams by Penalty Type") + ylab("Percentage of Penalties Against") + scale_y_continuous(labels = percent, limits=c(0.4,0.6)) + labs(color = "Perentage Called Against") +coord_flip() + theme_ref
 
 ```
 
@@ -260,7 +260,7 @@ df_percentage$avg = FALSE
 df_percentage[df_percentage$Var1 == "AVERAGE",]$avg = TRUE
 
 #plot
-ggplot(df_percentage, aes(x = reorder(Var1, -plotOrder), y = Freq, color = against)) + geom_hline(yintercept=0.5)  + geom_point(stat = "identity", size = 3, aes(shape = avg)) + xlab("Penalty Type") + ylab("Percentage of Penalties Against") + ggtitle("% of Penalties Called Against Home/Away Teams by Referee") + scale_y_continuous(labels = percent, limits=c(0.4,0.6)) + labs(color = "Percentage Called Against") +coord_flip() + guides(shape = FALSE) + theme_ref
+ggplot(df_percentage, aes(x = reorder(Var1, -plotOrder), y = Freq, color = against)) + geom_hline(yintercept=0.5)  + geom_point(stat = "identity", size = 3, aes(shape = avg)) + xlab("Referee Crew") + ylab("Percentage of Penalties Against") + ggtitle("% of Penalties Called Against Home/Away Teams by Referee") + scale_y_continuous(labels = percent, limits=c(0.4,0.6)) + labs(color = "Percentage Called Against") +coord_flip() + guides(shape = FALSE) + theme_ref
 
 keep(refData, theme_ref, sure = TRUE)
 ```
